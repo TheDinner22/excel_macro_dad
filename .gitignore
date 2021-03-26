@@ -1,0 +1,4 @@
+# ignore help dir
+help/
+# ignore all excel 2010 files
+*.xlsx
