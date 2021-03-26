@@ -39,11 +39,28 @@ class Data():
             column_list.append(val)
         return column_list
 
-    def update_all_cells_in_column(self):
+    def update_all_cells_in_column(self, column_letter, new_cell_values):
         """update a specific cell to a new value"""
-        pass
+        # sanity check column_letter
+        acceptable_letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+        if not column_letter in acceptable_letters: # note, this means AA is invalid
+            raise Exception("Invalid column letter(s)")
 
-# TODO del me
-data = Data("Book1","poopPy")
-col = data.return_column_as_list('Q')
-print(col)
+        # sanity check new_cell_values
+        if type(new_cell_values) != list or len(new_cell_values) < 1:
+            raise Exception("new_cell_values must be list that is not empty")
+
+        # get column
+        column = self.ws[column_letter]
+
+        # make sure no new cell are being created (this is only update old cells)
+        if  len(column) < len(new_cell_values):
+            raise Exception("new_cell_values had more values than there were cells in column " + column_letter)
+
+        # loop through each new cell value
+        for x in range(len(new_cell_values)):
+            column[x].value = new_cell_values[x]
+
+        # save changes
+        self.wb.save(self.file_path)
+
