@@ -1,7 +1,16 @@
 # all the tests are run here
 
+# set path to root dir
+
 # dependencies
-from unit import unit_tests # this error is false, code works fine
+
+# dependencies
+import os, sys
+
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # adds project dir to places it looks for the modules
+sys.path.append(BASE_PATH)
+
+from test.unit import unit_tests
 
 class _App():
     def __init__(self):
@@ -107,4 +116,3 @@ class _App():
 # run tester
 tester = _App()
 tester.run_all_tests()
-

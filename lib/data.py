@@ -64,3 +64,15 @@ class Data():
         # save changes
         self.wb.save(self.file_path)
 
+# TODO del me
+"""
+data = Data("Book1","poopPy")
+print("---------------------------------------------------------")
+col = data.return_column_as_list('A')
+print(col)
+print("---------------------------------------------------------")
+print("---------------------------------------------------------")
+data.update_all_cells_in_column('A',["joe","is","cool"])
+col = data.return_column_as_list('A')
+print(col)
+"""
