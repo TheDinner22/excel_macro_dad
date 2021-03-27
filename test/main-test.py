@@ -11,6 +11,7 @@ BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # adds p
 sys.path.append(BASE_PATH)
 
 from test.unit import unit_tests
+from test.integration import integration_tests
 
 class _App():
     def __init__(self):
@@ -19,6 +20,9 @@ class _App():
 
         # add unit tests
         self.tests["unit"] = unit_tests
+
+        # add integration tests
+        self.tests["integration"] = integration_tests
 
         # universal stuff for test runner
         # array to hold errors
