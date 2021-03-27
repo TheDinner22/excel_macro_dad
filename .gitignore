@@ -2,3 +2,5 @@
 help/
 # ignore all excel 2010 files
 *.xlsx
+# ignore __pycache dir__
+__pycache__/
