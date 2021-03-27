@@ -2,7 +2,7 @@
 unit_tests = {}
 
 # dependencies
-import os, sys, unittest
+import os, sys
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # adds project dir to places it looks for the modules
 sys.path.append(BASE_PATH)
@@ -20,8 +20,11 @@ def return_column_as_list_does_not_throw(done):
         try:
             data.return_column_as_list(invalid_input)
             raise AssertionError("return_column_as_list did not throw (it should have) when given input: " + invalid_input)
-        except Exception:
-            continue
+        except Exception as e:
+            # it will catch the Assertion error
+            msg = "return_column_as_list did not throw (it should have) when given input: " + invalid_input
+            if str(e) == msg:
+                raise AssertionError("return_column_as_list did not throw (it should have) when given input: " + invalid_input)         
     done("return_column_as_list should throw if it is passed anything but a non-capital letter")
 
 unit_tests["return_column_as_list should throw if it is passed anything but a non-capital letter"] = return_column_as_list_does_not_throw
