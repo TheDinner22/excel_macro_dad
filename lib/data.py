@@ -9,7 +9,7 @@ sys.path.append(BASE_PATH)
 class Data():
     """the fs for excel files"""
     def __init__(self, filename, ws_name):
-        self.filename = filename + ".xlsx" # TODO decide if extension is provided by user later on
+        self.filename = filename
         self.file_path = os.path.join("PUT-EXCEL-FILE-HERE",self.filename)
         self.wb = openpyxl.load_workbook(self.file_path)
         self.ws = ""

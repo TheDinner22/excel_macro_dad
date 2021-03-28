@@ -8,11 +8,12 @@ BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # adds p
 sys.path.append(BASE_PATH)
 
 from lib.data import Data
+from lib.filename_finder import wb_name
 
 # return_column_as_list should throw if given any non-capital letter
 def return_column_as_list_throws(done):
     # create instance of data class
-    data = Data("Book1","poopPy")
+    data = Data(wb_name,"poopPy")
     
     # list of all invalid inputs
     invalid_inputs = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6",6,4,3,98,23894,"7","8","9","AB","AA","11","aa","#","$","##A","AS",]
@@ -31,7 +32,7 @@ unit_tests["return_column_as_list should throw if it is passed anything but a no
 # update_all_cells_in_column should throw if given any non-capital letter
 def update_all_cells_in_column_throws(done):
     # create instance of data class
-    data = Data("Book1","poopPy")
+    data = Data(wb_name,"poopPy")
     
     # list of all invalid inputs
     invalid_inputs = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8",1,2,3,243,"9","AB","AA","11","aa","#","$","##A","AS",]
@@ -50,7 +51,7 @@ unit_tests["update_all_cells_in_column should throw if it is passed anything but
 # update_all_cells_in_column should throw if the second argument is: empty list, not a list, very long list
 def update_all_cells_in_column_throws_param2(done):
     # create instance of data class
-    data = Data("Book1","poopPy")
+    data = Data(wb_name,"poopPy")
     
     # list of all invalid inputs
     long_list = ["im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long","im long"]
