@@ -15,7 +15,6 @@ from test.integration import integration_tests
 
 class _App():
     def __init__(self):
-        self.ping = 200
         self.tests = {}
 
         # add unit tests

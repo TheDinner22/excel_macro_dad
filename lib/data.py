@@ -10,7 +10,7 @@ class Data():
     """the fs for excel files"""
     def __init__(self, filename, ws_name):
         self.filename = filename
-        self.file_path = os.path.join("PUT-EXCEL-FILE-HERE",self.filename)
+        self.file_path = self.filename
         self.wb = openpyxl.load_workbook(self.file_path)
         self.ws = ""
         

@@ -16,6 +16,9 @@ dir_file_names = os.listdir(dirname)
 if dir_file_names == []:
     wb_name = "none"
 else:
-    wb_name = dir_file_names[0]
+    wb_name = os.path.join("PUT-EXCEL-FILE-HERE",dir_file_names[0])
+
+dirs_paths = os.path.join(".data","test-sheet")
+test_wb_name = os.path.join(dirs_paths,"test_sheet.xlsx")
 
 
