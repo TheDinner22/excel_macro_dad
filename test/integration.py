@@ -33,6 +33,21 @@ def test1(done):
     msg = str(outcome) + " was not equal to " + str(expected_outcome)
     assert outcome == expected_outcome, msg
 
+    # write to column b with some none values
+    new_cells = ['does','none','none','none','none','none','none','none','work?']
+    expected_outcome = ["does","cool","me","tester","please","work","im","begging",'work?']
+
+    # try to update the cells make sure to catch all errors
+    try:
+        data.update_all_cells_in_column("B",new_cells)
+    except Exception as e:
+        raise AssertionError(str(e))
+
+    # read column b make sure that you get the expected outcome
+    outcome = data.return_column_as_list("B")
+    msg = str(outcome) + " was not equal to " + str(expected_outcome)
+    assert outcome == expected_outcome, msg
+
     # reset column b to empty
     empty_list = ["","","","","","","","",""]
     try:

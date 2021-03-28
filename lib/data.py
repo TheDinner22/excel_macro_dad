@@ -59,6 +59,8 @@ class Data():
 
         # loop through each new cell value
         for x in range(len(new_cell_values)):
+            if new_cell_values[x] == 'none':
+                continue
             column[x].value = new_cell_values[x]
 
         # save changes
