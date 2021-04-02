@@ -27,8 +27,8 @@ class Replacer():
             # loop through iv's
             for x in range(len(iv_list)):
                 # define what cells we are working with
-                iv_cell = iv_list[x]
-                dv_cell = dv_list[x]
+                iv_cell = str(iv_list[x])
+                dv_cell = str(dv_list[x])
 
                 # if the cell is empty, don't even bother comparing
                 if iv_cell.strip() != "":
@@ -42,11 +42,16 @@ class Replacer():
                             trimmed_dv_author = untrimmed_dv_author.split("(")[0].strip()
                             if trimmed_dv_author.lower() == trimmed_iv_author.lower():
                                 dv_cell_authors_list.remove(untrimmed_dv_author)
-                    new_dv_cell_str = ", ".join(dv_cell_authors_list)
-                    if new_dv_cell_str == dv_cell:
-                        self.new_dv_list.append("none")
-                    else:    
-                        self.new_dv_list.append(new_dv_cell_str)
+                    if len(dv_cell_authors_list) != 0 and len(dv_cell_authors_list) != 1:
+                        new_dv_cell_str = ", ".join(dv_cell_authors_list)
+                        if new_dv_cell_str == dv_cell:
+                            self.new_dv_list.append("none")
+                        else:    
+                            self.new_dv_list.append(new_dv_cell_str)
+                    elif len(dv_cell_authors_list) == 0:
+                        self.new_dv_list.append("s")
+                    elif len(dv_cell_authors_list) == 1:
+                        self.new_dv_list.append(dv_cell_authors_list[0])
                 else:
                     self.new_dv_list.append("none")
             # update the cells with their new values
@@ -57,3 +62,4 @@ class Replacer():
 
 if __name__ == "__main__":
     rep = Replacer(wb_name,"poopPy")
+    rep.replace_iv_dv()
