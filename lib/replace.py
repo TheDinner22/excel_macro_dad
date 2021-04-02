@@ -33,11 +33,11 @@ class Replacer():
                 # if the cell is empty, don't even bother comparing
                 if iv_cell.strip() != "":
                     iv_cell_authors_list = iv_cell.split(",")
+                    dv_cell_authors_list = dv_cell.split(",")
                     # loop through the authors
                     for untrimmed_iv_author in iv_cell_authors_list:
                         trimmed_iv_author = untrimmed_iv_author.split("(")[0].strip()
                         # loop through the dv comparing the trimmed author to the dv's authors
-                        dv_cell_authors_list = dv_cell.split(",")
                         for untrimmed_dv_author in dv_cell_authors_list:
                             trimmed_dv_author = untrimmed_dv_author.split("(")[0].strip()
                             if trimmed_dv_author.lower() == trimmed_iv_author.lower():
@@ -47,19 +47,23 @@ class Replacer():
                         if new_dv_cell_str == dv_cell:
                             self.new_dv_list.append("none")
                         else:    
-                            self.new_dv_list.append(new_dv_cell_str)
+                            self.new_dv_list.append(new_dv_cell_str.strip())
                     elif len(dv_cell_authors_list) == 0:
                         self.new_dv_list.append("s")
                     elif len(dv_cell_authors_list) == 1:
-                        self.new_dv_list.append(dv_cell_authors_list[0])
+                        self.new_dv_list.append(dv_cell_authors_list[0].strip())
                 else:
                     self.new_dv_list.append("none")
             # update the cells with their new values
             # TODO add the logger here
             self.data.update_all_cells_in_column(self.dv,self.new_dv_list)
+            return self.new_dv_list, iv_list, dv_list #TODO del me
         else:
             raise Exception("column " + self.dv + " was not equal in length to column " + self.iv)
 
 if __name__ == "__main__":
     rep = Replacer(wb_name,"poopPy")
-    rep.replace_iv_dv()
+    new_dv_list, iv_list, dv_list = rep.replace_iv_dv()
+    print("\n\nnew dv list:\n\n"+str(new_dv_list)+"\n-----------------") #TODO del me
+    print("dv list:\n\n"+str(dv_list)+"\n-----------------") #TODO del me
+    print("iv list:\n\n"+str(iv_list)+"\n-----------------") #TODO del me
