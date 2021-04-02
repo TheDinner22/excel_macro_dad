@@ -7,8 +7,53 @@ BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # adds p
 sys.path.append(BASE_PATH)
 
 from lib.data import Data
+from lib.filename_finder import wb_name
 
-class replacer():
-    def __init__(self):
+class Replacer():
+    def __init__(self, wb_name, ws_name):
         self.iv = "Q"
         self.dv = "Z"
+        self.data = Data(wb_name, ws_name)
+        self.new_dv_list = []
+
+    def replace_iv_dv(self):
+        """if iv in dv, remove it from dv"""
+        # get iv and dv columns
+        iv_list = self.data.return_column_as_list(self.iv)
+        dv_list = self.data.return_column_as_list(self.dv)
+
+        # sanity check that both lists are the same
+        if len(iv_list) == len(dv_list):
+            # loop through iv's
+            for x in range(len(iv_list)):
+                # define what cells we are working with
+                iv_cell = iv_list[x]
+                dv_cell = dv_list[x]
+
+                # if the cell is empty, don't even bother comparing
+                if iv_cell.strip() != "":
+                    iv_cell_authors_list = iv_cell.split(",")
+                    # loop through the authors
+                    for untrimmed_iv_author in iv_cell_authors_list:
+                        trimmed_iv_author = untrimmed_iv_author.split("(")[0].strip()
+                        # loop through the dv comparing the trimmed author to the dv's authors
+                        dv_cell_authors_list = dv_cell.split(",")
+                        for untrimmed_dv_author in dv_cell_authors_list:
+                            trimmed_dv_author = untrimmed_dv_author.split("(")[0].strip()
+                            if trimmed_dv_author.lower() == trimmed_iv_author.lower():
+                                dv_cell_authors_list.remove(untrimmed_dv_author)
+                    new_dv_cell_str = ", ".join(dv_cell_authors_list)
+                    if new_dv_cell_str == dv_cell:
+                        self.new_dv_list.append("none")
+                    else:    
+                        self.new_dv_list.append(new_dv_cell_str)
+                else:
+                    self.new_dv_list.append("none")
+            # update the cells with their new values
+            # TODO add the logger here
+            self.data.update_all_cells_in_column(self.dv,self.new_dv_list)
+        else:
+            raise Exception("column " + self.dv + " was not equal in length to column " + self.iv)
+
+if __name__ == "__main__":
+    rep = Replacer(wb_name,"poopPy")
