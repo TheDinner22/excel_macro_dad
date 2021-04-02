@@ -4,3 +4,7 @@ help/
 *.xlsx
 # ignore __pycache dir__
 __pycache__/
+# dont ignore the test excel spread sheet
+!test_sheet.xlsx
+# ignore log files
+*.log
