@@ -115,7 +115,7 @@ class _App():
         print("")
         print("------------------END TEST REPORT-----------------")
 
-
-# run tester
-tester = _App()
-tester.run_all_tests()
+if __name__ == "__main__":
+    # run tester
+    tester = _App()
+    tester.run_all_tests()
