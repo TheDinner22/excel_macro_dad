@@ -8,6 +8,7 @@ sys.path.append(BASE_PATH)
 
 from lib.data import Data
 from lib.filename_finder import test_wb_name
+from lib.replace import Replacer
 
 # ws name
 ws_name = "test"
@@ -30,8 +31,8 @@ def test1(done):
 
     # read column b make sure that you get the expected outcome
     outcome = data.return_column_as_list("B")
-    msg = str(outcome) + " was not equal to " + str(expected_outcome)
-    assert outcome == expected_outcome, msg
+    msg = str(outcome[0:9]) + " was not equal to " + str(expected_outcome)
+    assert outcome[0:9] == expected_outcome, msg
 
     # write to column b with some none values
     new_cells = ['does','none','none','none','none','none','none','none','work?']
@@ -45,11 +46,11 @@ def test1(done):
 
     # read column b make sure that you get the expected outcome
     outcome = data.return_column_as_list("B")
-    msg = str(outcome) + " was not equal to " + str(expected_outcome)
-    assert outcome == expected_outcome, msg
+    msg = str(outcome)[0:9] + " was not equal to " + str(expected_outcome)
+    assert outcome[0:9] == expected_outcome, msg
 
     # reset column b to empty
-    empty_list = ["","","","","","","","",""]
+    empty_list = ["","","","","","","","","",""] #TODO make this more robust
     try:
         data.update_all_cells_in_column('B',empty_list)
     except Exception as e:
@@ -63,6 +64,38 @@ def test1(done):
     done("Series of reads and writes to excel file. The reads make sure that the writes actually worked.")
 integration_tests["Series of reads and writes to excel file. The reads make sure that the writes actually worked."] = test1
 
+# Run the replace funtion, assert that the replaces happen correctly
+def test2(done): # fails rn
+    data = Data(test_wb_name,ws_name)
+    replace = Replacer(test_wb_name,ws_name)
+    iv = replace.iv
+    dv = replace.dv
+
+    # define input and expected out put
+    iv_input = ["fizz, buzz, pop","pop","fiZZ, pop","fizz, buzz","18, pop, buzz","pop (fizz), 34","buzz","","fizz","fizz"]
+    dv_input = ["pop","fizz (242), buzz","23, pop, pop","fuzz, buzz","23, 23, 23","pop, fizz, 34","BUZZ, FIZZ","","","fizz, fizz"]
+    dv_expected_output = ['s', 'fizz (242), buzz', '23', 'fuzz', '23, 23, 23', 'fizz', 'FIZZ', '', 's', 's']
+    empty_list = ["","","","","","","","","",""]
+
+    # write inputs to the iv and dv columns
+    data.update_all_cells_in_column(iv,iv_input)
+    data.update_all_cells_in_column(dv,dv_input)
+
+    # run replacer
+    replace.replace_iv_dv()
+
+    # get new dv column
+    dv_output = data.return_column_as_list(dv)
+
+    assert dv_output == dv_expected_output, "dv_output did not match the expected output when dv_output:\n"+str(dv_output)+"\nand expected output was:\n"+str(dv_expected_output)
+
+    # replace the lines with empty strings
+    data.update_all_cells_in_column(iv,empty_list)
+    data.update_all_cells_in_column(dv,empty_list)
+
+    # done
+    done("Run the replace funtion, assert that the replaces happen correctly")
+integration_tests["Run the replace funtion, assert that the replaces happen correctly"] = test2
 
 
 
