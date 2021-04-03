@@ -8,6 +8,7 @@ sys.path.append(BASE_PATH)
 
 from lib.data import Data
 from lib.filename_finder import wb_name
+from lib.logger import Log_Maker
 
 class Replacer():
     def __init__(self, wb_name, ws_name):
@@ -72,8 +73,12 @@ class Replacer():
                 else:
                     self.new_dv_list.append("none")
             # update the cells with their new values
-            # TODO add the logger here
             self.data.update_all_cells_in_column(self.dv,self.new_dv_list)
+
+            # log the changes to the file system
+            log = Log_Maker(self.dv,dv_list,self.new_dv_list)
+            log.both()
+
             return self.new_dv_list
         else:
             raise Exception("column " + self.dv + " was not equal in length to column " + self.iv)
