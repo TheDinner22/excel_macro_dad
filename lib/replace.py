@@ -16,6 +16,12 @@ class Replacer():
         self.data = Data(wb_name, ws_name)
         self.new_dv_list = []
 
+    def strip_all_elements(self, untrimmed_list):
+        """strip all elements of a list"""
+        for x in range(len(untrimmed_list)):
+            untrimmed_list[x] = untrimmed_list[x].strip()
+        return untrimmed_list
+
     def replace_iv_dv(self):
         """if iv in dv, remove it from dv"""
         # get iv and dv columns
@@ -32,16 +38,24 @@ class Replacer():
 
                 # if the cell is empty, don't even bother comparing
                 if iv_cell.strip() != "":
-                    iv_cell_authors_list = iv_cell.split(",")
-                    dv_cell_authors_list = dv_cell.split(",")
+                    iv_cell_authors_list = self.strip_all_elements(iv_cell.split(","))
+                    dv_cell_authors_list = self.strip_all_elements(dv_cell.split(","))
+
                     # loop through the authors
                     for untrimmed_iv_author in iv_cell_authors_list:
                         trimmed_iv_author = untrimmed_iv_author.split("(")[0].strip()
                         # loop through the dv comparing the trimmed author to the dv's authors
-                        for untrimmed_dv_author in dv_cell_authors_list:
+                        for untrimmed_dv_author in range(len(dv_cell_authors_list)):
+                            if untrimmed_dv_author >= len(dv_cell_authors_list):
+                                break
+                            untrimmed_dv_author = dv_cell_authors_list[untrimmed_dv_author]
                             trimmed_dv_author = untrimmed_dv_author.split("(")[0].strip()
                             if trimmed_dv_author.lower() == trimmed_iv_author.lower():
-                                dv_cell_authors_list.remove(untrimmed_dv_author)
+                                while True:
+                                    try:
+                                        dv_cell_authors_list.remove(untrimmed_dv_author)
+                                    except ValueError:
+                                        break
                     if len(dv_cell_authors_list) != 0 and len(dv_cell_authors_list) != 1:
                         new_dv_cell_str = ", ".join(dv_cell_authors_list)
                         if new_dv_cell_str == dv_cell:
@@ -51,19 +65,19 @@ class Replacer():
                     elif len(dv_cell_authors_list) == 0:
                         self.new_dv_list.append("s")
                     elif len(dv_cell_authors_list) == 1:
-                        self.new_dv_list.append(dv_cell_authors_list[0].strip())
+                        if dv_cell_authors_list[0].strip() == '':
+                            self.new_dv_list.append("s")
+                        else:
+                            self.new_dv_list.append(dv_cell_authors_list[0].strip())
                 else:
                     self.new_dv_list.append("none")
             # update the cells with their new values
             # TODO add the logger here
             self.data.update_all_cells_in_column(self.dv,self.new_dv_list)
-            return self.new_dv_list, iv_list, dv_list #TODO del me
+            return self.new_dv_list
         else:
             raise Exception("column " + self.dv + " was not equal in length to column " + self.iv)
 
 if __name__ == "__main__":
     rep = Replacer(wb_name,"poopPy")
-    new_dv_list, iv_list, dv_list = rep.replace_iv_dv()
-    print("\n\nnew dv list:\n\n"+str(new_dv_list)+"\n-----------------") #TODO del me
-    print("dv list:\n\n"+str(dv_list)+"\n-----------------") #TODO del me
-    print("iv list:\n\n"+str(iv_list)+"\n-----------------") #TODO del me
+    rep.replace_iv_dv()

@@ -24,6 +24,9 @@ class Data():
         if self.ws == "":
             raise Exception('That sheet name does not exist')
 
+    def reload_wb(self):
+        """fuck using other peoples code"""
+        self.wb = openpyxl.load_workbook(self.file_path)
 
     def return_column_as_list(self, column_letter):
         """get a column by letter, each row is an element in a list"""
@@ -65,16 +68,16 @@ class Data():
 
         # save changes
         self.wb.save(self.file_path)
+        self.reload_wb()
 
 # TODO del me
-"""
-data = Data("Book1","poopPy")
-print("---------------------------------------------------------")
-col = data.return_column_as_list('A')
-print(col)
-print("---------------------------------------------------------")
-print("---------------------------------------------------------")
-data.update_all_cells_in_column('A',["joe","is","cool"])
-col = data.return_column_as_list('A')
-print(col)
-"""
+if __name__ == "__main__":
+    data = Data("PUT-EXCEL-FILE-HERE/Book1.xlsx","poopPy")
+    print("---------------------------------------------------------")
+    col = data.return_column_as_list('A')
+    print(col)
+    print("---------------------------------------------------------")
+    print("---------------------------------------------------------")
+    data.update_all_cells_in_column('A',["joe","is","cool"])
+    col = data.return_column_as_list('A')
+    print(col)

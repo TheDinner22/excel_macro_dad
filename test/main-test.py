@@ -18,7 +18,7 @@ class _App():
         self.tests = {}
 
         # add unit tests
-        self.tests["unit"] = unit_tests
+        self.tests["unit"] = unit_tests # TODO un comment me
 
         # add integration tests
         self.tests["integration"] = integration_tests
