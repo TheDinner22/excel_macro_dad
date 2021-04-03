@@ -28,7 +28,7 @@ class Log_Maker(): # old dv list wont have none new dv list will have none
                 cell_id = self.dv + str(x+1)
                 current_old_element = self.old_dv_list[x]
                 current_new_element = self.new_dv_list[x]
-                if current_old_element.lower().strip() != current_new_element.lower().strip():
+                if current_old_element.lower().strip() != current_new_element.lower().strip() and current_new_element.lower().strip() != 'none':
                     line_changed_part += 'changed cell ' + cell_id + ' from ' + current_old_element + ' to ' + current_new_element + "\n"
                 
             if line_changed_part != '':
@@ -54,8 +54,6 @@ class Log_Maker(): # old dv list wont have none new dv list will have none
             self.update_time()
             with open(self.log_file_path,'w') as file_object:
                 file_object.write(lines)
-        else:
-            print('\033[91m'+"NO CHANGES WERE MADE\nNO LOG CREATED"+'\033[0m')
         
     
     def update_recent_log(self):
@@ -64,8 +62,6 @@ class Log_Maker(): # old dv list wont have none new dv list will have none
             self.update_time()
             with open(self.recent_log_file_path,"w") as file_object:
                 file_object.write(lines)
-        else:
-            print('\033[91m'+"NO CHANGES WERE MADE\nNO LOG CREATED"+'\033[0m')
 
     def both(self):
         self.create_unique_log()
