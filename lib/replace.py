@@ -16,6 +16,7 @@ class Replacer():
         self.dv = "Z"
         self.data = Data(wb_name, ws_name)
         self.new_dv_list = []
+        self.empty_char = 's'
 
     def strip_all_elements(self, untrimmed_list):
         """strip all elements of a list"""
@@ -64,10 +65,10 @@ class Replacer():
                         else:    
                             self.new_dv_list.append(new_dv_cell_str.strip())
                     elif len(dv_cell_authors_list) == 0:
-                        self.new_dv_list.append("s")
+                        self.new_dv_list.append(self.empty_char)
                     elif len(dv_cell_authors_list) == 1:
                         if dv_cell_authors_list[0].strip() == '':
-                            self.new_dv_list.append("s")
+                            self.new_dv_list.append(self.empty_char)
                         else:
                             self.new_dv_list.append(dv_cell_authors_list[0].strip())
                 else:
