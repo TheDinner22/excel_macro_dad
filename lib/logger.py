@@ -1,22 +1,25 @@
 # log changes in log files
 
 # dependencies
-import os
+import os, sys
+
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # adds project dir to places it looks for the modules
+sys.path.append(BASE_PATH)
 
 from datetime import datetime
 
 class Log_Maker(): # old dv list wont have none new dv list will have none
     def __init__(self,dv,old_dv_list,new_dv_list):
-        self.current_datetime = datetime.now()
-        self.log_file_path = os.path.join(os.path.join('.data','logs'),(self.current_datetime + '.log'))
-        self.recent_log_file_path = os.path.join(os.path.join('.data','logs'),('recent.log'))
+        self.current_datetime = str(datetime.now())
+        self.log_file_path = ('.' + (os.path.join(os.path.join('.data','logs'),(self.current_datetime + '.log')).replace(':','-').split(".")[1] + ".log")).replace(' ', '_')
+        self.recent_log_file_path = ('.' + (os.path.join(os.path.join('.data','logs'),('recent.log')).replace(':','-').split(".")[1] + ".log")).replace(' ', '_')
         self.dv = dv
         self.old_dv_list = old_dv_list
         self.new_dv_list = new_dv_list
     
     def update_time(self):
-        self.current_datetime = datetime.now()
-        self.log_file_path = os.path.join(os.path.join('.data','logs'),(self.current_datetime + '.log'))
+        self.current_datetime = str(datetime.now())
+        self.log_file_path = ('.' + (os.path.join(os.path.join('.data','logs'),(self.current_datetime + '.log')).replace(':','-').split(".")[1] + ".log")).replace(' ', '_')
     
     def construct_line(self):
         if len(self.old_dv_list) == len(self.new_dv_list):
@@ -31,8 +34,8 @@ class Log_Maker(): # old dv list wont have none new dv list will have none
             if line_changed_part != '':
                 line = '--------START LOG----------'
 
-                line += '\n changes made: ' + str(len(line_changed_part.split('\n')) - 1)
-                line += 'Changes were made in column ' + self.dv
+                line += '\nChanges made: ' + str(len(line_changed_part.split('\n')) - 1)
+                line += '\nChanges were made in column ' + self.dv
                 line += '\n'
 
                 line += line_changed_part
@@ -51,6 +54,8 @@ class Log_Maker(): # old dv list wont have none new dv list will have none
             self.update_time()
             with open(self.log_file_path,'w') as file_object:
                 file_object.write(lines)
+        else:
+            print('\033[91m'+"NO CHANGES WERE MADE\nNO LOG CREATED"+'\033[0m')
         
     
     def update_recent_log(self):
@@ -59,6 +64,8 @@ class Log_Maker(): # old dv list wont have none new dv list will have none
             self.update_time()
             with open(self.recent_log_file_path,"w") as file_object:
                 file_object.write(lines)
+        else:
+            print('\033[91m'+"NO CHANGES WERE MADE\nNO LOG CREATED"+'\033[0m')
 
     def both(self):
         self.create_unique_log()
