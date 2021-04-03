@@ -8,3 +8,5 @@ __pycache__/
 !test_sheet.xlsx
 # ignore log files
 *.log
+# dont ignore recent.log
+!recent.log
