@@ -29,14 +29,14 @@ class Log_Maker(): # old dv list wont have none new dv list will have none
                 current_old_element = self.old_dv_list[x]
                 current_new_element = self.new_dv_list[x]
                 if current_old_element.lower().strip() != current_new_element.lower().strip() and current_new_element.lower().strip() != 'none':
-                    line_changed_part += 'changed cell ' + cell_id + ' from ' + current_old_element + ' to ' + current_new_element + "\n"
+                    line_changed_part += 'changed cell ' + cell_id + ' from ||' + current_old_element + '^|^ to ^^' + current_new_element + "^|^\n"
                 
             if line_changed_part != '':
                 line = '--------START LOG----------'
 
                 line += '\nChanges made: ' + str(len(line_changed_part.split('\n')) - 1)
                 line += '\nChanges were made in column ' + self.dv
-                line += '\n'
+                line += '\n\n'
 
                 line += line_changed_part
 
