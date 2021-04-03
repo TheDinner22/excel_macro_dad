@@ -12,8 +12,8 @@ from lib.logger import Log_Maker
 
 class Replacer():
     def __init__(self, wb_name, ws_name):
-        self.iv = "Q"
-        self.dv = "Z"
+        self.iv = "O"
+        self.dv = "X"
         self.data = Data(wb_name, ws_name)
         self.new_dv_list = []
         self.empty_char = 's'
